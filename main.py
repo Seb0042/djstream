@@ -18,6 +18,8 @@ def get_ip_ethernet():
 def get_ip_wifi(blue_comm):
   clist = []
   tlist = []
+  command = "wpa_cli -i wlan0 < action_scan" 
+  subprocess.Popen(["bash","-c",command],stdout=subprocess.PIPE)
   command = "wpa_cli -i wlan0 < action_scan  | grep ESS | sort -k 5"
   with subprocess.Popen(["bash","-c",command],stdout=subprocess.PIPE) as proc:
     try:
@@ -108,7 +110,7 @@ def main():
           r_cnx = do_connect('ethernet')
         elif buff_msg == b'1':
           blue_comm.send_comm('Activating WiFi. Please choose the network\n')
-          r_cnx = do_connect('wifi',blue_comm) ):
+          r_cnx = do_connect('wifi',blue_comm) 
         if r_cnx:
           blue_comm.send_comm('Connection to Internet Ok')
         else:
