@@ -2,8 +2,20 @@
 set -x
 if [ ! -z "$1" ]
 then
-	TARGET="$1"
+	SOURCE="$1"
 else
-	TARGET="$(cat djinfo)"
+	SOURCE="$(cat sourceinfo)"
 fi
-ffmpeg -ac 2 -f alsa -i hw:1,0 -acodec libmp3lame -ab 32k -ac 2 -content_type audio/mpeg -f mp3 "${TARGET}"
+if [ ! -z "$2" ]
+then
+	OUTPUT="$2"
+else
+	OUTPUT="$(cat outputinfo)"
+fi
+if [ ! -z "$3" ]
+then
+	TARGET="$3"
+else
+	TARGET="$(cat targetinfo)"
+fi
+ffmpeg  $SOURCE $OUTPUT "${TARGET}"
